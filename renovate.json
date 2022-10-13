@@ -1,0 +1,17 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [ "config:base" ],
+    "regexManagers": [
+        {
+            "fileMatch": ["^bitbucket-pipelines.yml$"],
+            "matchStrings": [
+                "image: (?<depName>[a-z/-]+)(?::(?<currentValue>[a-z0-9.-]+))?(?:@(?<currentDigest>sha256:[a-f0-9]+))?"
+            ],
+            "datasourceTemplate": "docker",
+            "versioningTemplate": "docker"
+        }
+    ],
+    "separateMajorMinor": true,
+    "rangeStrategy": "pin",
+    "prHourlyLimit": 100
+}

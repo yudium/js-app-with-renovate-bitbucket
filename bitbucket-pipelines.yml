@@ -1,0 +1,32 @@
+image: renovate/renovate:32.236-slim
+
+definitions:
+  caches:
+    renovate: renovate
+
+pipelines:
+  default:
+    - step:
+        name: renovate dry-run
+        services:
+          - docker
+        caches:
+          - docker
+          - renovate
+        script:
+          - chmod -R 777 "$BITBUCKET_CLONE_DIR/renovate"
+          - export LOG_LEVEL=debug RENOVATE_CONFIG_FILE="$BITBUCKET_CLONE_DIR/config.js"
+          - renovate --dry-run
+  branches:
+    master:
+      - step:
+          name: renovate
+          services:
+            - docker
+          caches:
+            - docker
+            - renovate
+          script:
+            - chmod -R 777 "$BITBUCKET_CLONE_DIR/renovate"
+            - export LOG_LEVEL=debug RENOVATE_CONFIG_FILE="$BITBUCKET_CLONE_DIR/config.js"
+            - renovate
